@@ -1,0 +1,5 @@
+<apex:component >
+	<div class="claim hide">
+		<p class="error comment"> Please enter a valid phone number </p>
+	</div>
+</apex:component>

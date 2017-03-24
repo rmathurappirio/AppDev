@@ -1,0 +1,87 @@
+<apex:page controller="FFHR1_SurveyIdentityLocationController" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html>
+    
+       <script type="text/javascript">
+        if({!verificationcomplete}){
+          alert('Thank you for confirming your identity. Your reward awaits! :)');
+        }
+        if({!identityConfirmed}){
+          location.href='{!$Page.FFHR1_RedeemReward}?memberId={!memberId}';
+        }
+      </script>
+    
+          
+        <head>
+          <title>Welcome to Appirio Survey</title>
+          <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="format-detection" content="telephone=no" />
+          <c:SurveyAppStyles />
+          <c:SurveyAppScripts />
+          
+        </head>
+        <body>
+          <c:HeaderSidebarComponent />
+          <main class="step-content">
+            <div class="step-tips hide">
+              <div class="step-line">
+                <div class="blue-line-one"></div>
+                <span class="step-survey active"></span>
+                <span class="step-identity"></span>
+                <span class="step-claim"></span>
+              </div>
+            </div>
+            <!-- end .step-tips -->
+            <div class="question hide">
+              <h2>QUESTION <span class="question-number">1</span> OF <span class="total-question-number">1</span></h2>
+              <div class="question-item">
+                <p class="problem">Lorem Ipsum is simply dummy text of the printing?</p>
+                <ul class="option-item">
+                  <li>
+                    <span class="form-container">
+                      <input type="radio" name="RadioGroup1" />
+                    </span>
+                    Contrary to popular belief,</li>
+                  <li> 
+                    <span class="form-container">
+                      <input type="radio" name="RadioGroup1" />
+                    </span>
+                    Lorem Ipsum is not simply</li>
+                  <li>
+                    <span class="form-container">
+                      <input type="radio" name="RadioGroup1" />
+                    </span>
+                    have suffered alteration</li>
+                  <li>
+                    <span class="form-container">
+                      <input type="radio" name="RadioGroup1" />
+                    </span>
+                    Contrary to popular</li>
+                </ul>
+              </div>
+              
+            </div>
+            <!-- end .question -->
+            <div class="identity">
+              <h2>You're done with the survey!</h2>
+              <p class="confirm">
+                We need to confirm your identity, so please 
+                connect with one of this social network
+              </p>
+              <div class="network">
+                <a href="https://login.salesforce.com/services/auth/sso/00D61000000J05AEAS/FacebookApp1" class="facebook"></a>
+                <a href="https://login.salesforce.com/services/auth/sso/00D61000000J05AEAS/TwitterApp1" class="twitter"></a>
+                <a href="https://login.salesforce.com/services/auth/sso/00D61000000J05AEAS/LinkedInApp1" class="linkedin"></a>
+                <a href="https://login.salesforce.com/services/auth/sso/00D61000000J05AEAS/SalesforceApp1" class="icloud"></a>
+              </div>
+            </div>
+            <!-- end .identity -->
+          </main>
+          <!-- end main -->
+          
+        </body>
+    </html>
+    
+</apex:page>

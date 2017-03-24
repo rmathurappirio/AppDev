@@ -1,0 +1,112 @@
+<apex:page showHeader="false" controller="FFHR1_SnapPhotoController" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <apex:form >
+    <html>
+    <apex:outputpanel layout="block" id="error" style="position: absolute;top: 8%;">
+        <apex:pageMessages />
+    </apex:outputpanel>
+    
+        <head>
+          <!-- Meta Tags -->
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="format-detection" content="telephone=no" />
+          <title>Appirio Survey</title>
+          <c:SurveyAppStyles />
+          <c:SurveyAppScripts />
+          <style type="text/css">
+            .inputWrapper {
+                overflow: hidden;
+                position: relative;
+                cursor: pointer;
+                /*Using a background color, but you can use a background image to represent a button*/
+                background-color: #6295c6;
+                text-align: center;
+                height: 45px; 
+                width: 150px;
+                border-radius: 5px;
+                margin:0 auto;
+            }
+
+            .fileInput {
+                cursor: pointer;
+                height: 100%;
+                position:absolute;
+                top: 0;
+                right: 0;
+                /*This makes the button huge so that it can be clicked on*/
+                font-size:50px;
+            }
+            
+
+            /*Dynamic styles*/
+            .inputWrapper:hover {
+                background-color: #FDD;
+            }
+            .inputWrapper.clicked {
+                background-color: #A66;
+            }
+
+
+          </style>
+        </head>
+        
+        
+        <body>
+            
+          <c:HeaderSidebarComponent />
+          <main class="pass-content">
+             <div class="snap-content">      
+                  <div class="snap-photo"> 
+                    <!--<img src="img/snap-photo.jpg" alt="snap photo">-->
+                    <apex:image url="{!URLFOR($Resource.FFHR1_SurveyApp,'img/snap-photo.jpg')}" alt="snap photo"></apex:image>
+                  </div>
+                  <div class="inputWrapper">
+                    <a href="javascript:;" class="blue-btn" role="button" title="Upload photo">
+                            <apex:actionFunction name="uploadFileActionIdentification" action="{!saveAttachment}" > </apex:actionFunction>
+                            <input id="hiddenInputIdentification" type="hidden" name="hiddenInputIdentification" class="hiddenInputIdentification fileInput blue-btn"/>
+                            <apex:inputFile styleclass="fileInput" style="line-height: 0px;margin-top: 0px;margin-left: 0px;"  
+                            value="{!attachment.body}" filename="{!attachment.name}" onchange="updateHiddenValueIdentification(this);uploadAttachmentIdentification();" >
+                        </apex:inputFile>
+                        Snap a Photo
+                    </a> 
+                  </div>
+             </div>
+          </main>
+        </body>
+    </html>
+    
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+        $( document ).ready(function() {
+            $('.btn.btn-lg.btn-danger:first').each(function(){$(this).css('display','none')});
+        });
+        
+        function updateHiddenValueIdentification(thisId){
+           //var fileName;
+           var fileName = thisId.value;
+           var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
+           $('.hiddenInputIdentification').each(function(){
+               $(this).val(ext);
+           });
+       }
+                
+                
+        function uploadAttachmentIdentification(){
+            var selectedFileExtension = '';
+            var selectedExtensions = 'PNG';
+            selectedExtensions = selectedExtensions.toUpperCase();
+            $('.hiddenInputIdentification').each(function(){
+                selectedFileExtension = ''+$(this).val().toUpperCase();
+            });
+            if(selectedExtensions.lastIndexOf(selectedFileExtension) == -1){
+                 //alert('File Type not Supported. You can only upload ' + selectedExtensions + ' files.');
+                 //return;
+             }
+             uploadFileActionIdentification();
+        }
+        
+    
+    </script>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,15 @@
+<apex:page sidebar="false" Controller="TValueCloneController" tabstyle="TValueDocument__c">
+	<apex:form >
+		<apex:pageBlock title="New TValue Schedule" mode="edit">
+			<apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Save"/>
+				<apex:commandButton action="{!cancel}" value="Cancel"/>
+			</apex:pageBlockButtons>  
+			<apex:pageBlockSection columns="2" collapsible="false">
+				<apex:inputField value="{!TValueDocument.name}" label="TValue Schedule Name" />
+				<apex:inputField value="{!TValueDocument.Opportunity__c}" label="Opportunity" id="Opps" required="true" />
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+		<apex:pageMessages />
+	</apex:form>
+</apex:page>

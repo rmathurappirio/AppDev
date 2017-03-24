@@ -1,0 +1,16 @@
+<apex:page standardController="Authorisation__c" sidebar="false" showHeader="false">
+  <apex:detail subject="{!Authorisation__c.id}"/>
+  <apex:form >
+      <apex:pageBlock title="Authorisation" mode="edit">
+        
+            <apex:pageBlockSection title="New Authorisation Content" columns="2">    
+            <apex:inputField value="{!Authorisation__c.name}"/>
+            <apex:inputField value="{!Authorisation__c.Org_ID__c}"/>
+        </apex:pageBlockSection>
+        <center>
+        <apex:commandButton action="{!save}" value="Save"/>
+        </center>
+      </apex:pageBlock>
+  </apex:form>
+    
+</apex:page>

@@ -1,0 +1,475 @@
+<apex:page sidebar="false"
+           standardcontroller="TValueDocument__c"
+           extensions="TValueDetailS1"
+           doctype="html-5.0"
+           standardstylesheets="true">
+
+    <apex:stylesheet value="{!URLFOR($Resource.TValue,'TValue/styles/tvalueonline.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.TValue,'TValue/styles/tvalueonline-buttons.css')}" />
+
+    <style>
+        #kb_container_div_id {
+            height: 0;
+            display: inline-block;
+            top: auto !important;
+            left: auto !important;
+            width: 96% !important;
+            padding: 0 2% !important;
+            position: relative !important;
+            background-color: #00496e;
+        }
+
+        .cfm_grid {
+            height: auto !important;
+        }
+
+        .floatersection {
+            float: left;
+            display: inline-block;
+        }
+
+        .format {
+            height: auto;
+        }
+
+        .columns {
+            width: 32.25%;
+            margin-right: 1.5%;
+            float: left;
+        }
+
+            .columns.last {
+                margin-right: 0;
+            }
+
+            .columns div {
+                width: 100% !important;
+            }
+
+            .columns label {
+                display: table-cell;
+                width: 80%;
+                padding-left: 3%;
+            }
+
+        .flip.iconbar_div {
+            margin-top: 1px;
+        }
+
+        #div_expand_id, #div_compress_id, #div_sort_id, #div_rounding_id, #div_balance_id, #div_totals_id {
+            display: table !important;
+        }
+
+            #div_expand_id.false, #div_compress_id.false, #div_sort_id.false, #div_rounding_id.false, #div_balance_id.false, #div_totals_id.false, .false {
+                display: none !important;
+            }
+    </style>
+
+    <apex:form id="TValueFormId" styleclass="buttonbar">
+        <apex:sectionheader title="TimeValue Software™" subtitle="TValue Schedule" id="sectionHeaders" />
+        <apex:pageblock title="Lease Pricing Information" id="tvaluetitle" mode="inlineEdit">
+            <apex:pageblockbuttons >
+                <apex:commandbutton action="{!save}" onclick="remoteSave();" value="Save" styleclass="Reallink" />
+                <apex:outputlink value="{!URLFOR($Action.TValueDocument__c.Delete, TValueDocument__c.Id, [retURL='/'&TValueDocument__c.Opportunity__c])}" styleclass="linknounderline" onclick="return window.confirm('Are you sure you want to Delete TValue File?');"><span class="btn mybutton">Delete File</span></apex:outputlink>
+                <apex:commandbutton action="{!saveclone}" value="Clone" styleclass="Reallink" onclick="remoteSave();" />
+                <apex:outputlink value="/{!TValueDocument__c.Opportunity__c}" styleclass="linknounderline" onclick="resetInlineEdit()"><span class="btn mybutton">Cancel</span></apex:outputlink>
+                <apex:commandbutton action="{!done}" onclick="remoteSave();" value="Done" styleclass="Reallink" />
+                <div class="Include">
+                    <apex:outputlabel value="Include in Proposal" for="include" />
+                    <apex:inputfield value="{!TValueDocument__c.IncludeProposal__c}" styleclass="checkboxed" id="include" />
+                </div>
+            </apex:pageblockbuttons>
+            <apex:pageblocksection columns="2">
+                <apex:inputfield value="{!TValueDocument__c.name}" />
+                <apex:inputfield value="{!TValueDocument__c.Opportunity__c}" />
+                <apex:inputfield value="{!TValueDocument__c.Terms_tv__c}" styleclass="bottomrow" />
+                <apex:inputfield value="{!TValueDocument__c.End_of_Term__c}" styleclass="bottomrow" />
+            </apex:pageblocksection>
+            <input name="TValueRefererName" id="TValueRefererId" type="hidden" value="" />
+            <div id="TValueIframe">
+                <div class="tvalue_page" id="tvalue_page_div_id">
+                    <form id="Form1">
+                        <div class="flip" id="flip_id">
+                            <div class="cfm_flip" id="cfm_flip_id">
+                                <div class="iconbar" id="iconbar_id">
+                                    <div class="iconbar_row" id="iconbar_row_id">
+                                        <div class="flip iconbar_div" id="flip_btn_div_id">
+                                            <button class="iconbar_btn amort_btn" id="amort_btn_id" type="button" style="display: inline-block;">Amortization</button>
+                                            <button class="iconbar_btn amort_btn" id="cfm_btn_id" type="button" style="display: none;">Cash&nbsp;Flow</button>
+                                        </div>
+                                        <div class="iconbar_div" id="div_insert_id">
+                                            <button class="iconbar_btn iconbar_insert" id="btn_insert_id" type="button" onclick="iconbarClick(event, this);">insert</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_delete_id">
+                                            <button class="iconbar_btn iconbar_delete" id="btn_delete_id" type="button" onclick="iconbarClick(event, this);">delete</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_expand_id">
+                                            <button class="iconbar_btn iconbar_expand" id="btn_expand_id" type="button" onclick="iconbarClick(event, this);">expand</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_compress_id">
+                                            <button class="iconbar_btn iconbar_compress" id="btn_compress_id" type="button" onclick="iconbarClick(event, this);">compress</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_sort_id">
+                                            <button class="iconbar_btn iconbar_sort" id="btn_sort_id" type="button" onclick="iconbarClick(event, this);">sort</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_rounding_id">
+                                            <button class="iconbar_btn iconbar_rounding" id="btn_rounding_id" type="button" onclick="iconbarClick(event, this);">rounding</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_balance_id">
+                                            <button class="iconbar_btn iconbar_balance" id="btn_balance_id" type="button" onclick="iconbarClick(event, this);">balance</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_totals_id">
+                                            <button class="iconbar_btn iconbar_totals" id="btn_totals_id" type="button" onclick="iconbarClick(event, this);">totals</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_options_id">
+                                            <button class="iconbar_btn iconbar_options" id="btn_options_id" type="button" onclick="iconbarClick(event, this);">compute&nbsp;options</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_input_setup_id">
+                                            <button class="iconbar_btn iconbar_input_setup" id="btn_input_setup_id" type="button" onclick="iconbarClick(event, this);">input&nbsp;setup</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_event_names_id">
+                                            <button class="iconbar_btn iconbar_event_names" id="btn_event_names_id" type="button" onclick="iconbarClick(event, this);">event&nbsp;names</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_restore_id">
+                                            <button class="iconbar_btn iconbar_restore" id="btn_restore_id" type="button" onclick="iconbarClick(event, this);">restore&nbsp;unknown</button>
+                                        </div>
+
+                                        <div class="iconbar_div" id="div_calculate_id">
+                                            <button class="iconbar_btn iconbar_calculate" id="btn_calculate_id" type="button" onclick="calculate();">calculate</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="more_popup_div_id"></div>
+                                <div class="cfm_display_div" id="cfm_display_div_id"> </div>
+                                <div class="bottom_nav" id="bottom_nav_div_id"> </div>
+                            </div>
+                            <div class="amort_flip" id="amort_flip_id">
+
+                                <div class="amort_iconbar" id="amort_iconbar_id">
+                                    <div class="iconbar_row" id="amort_iconbar_row_id"> </div>
+                                </div>
+                                <div id="amort_more_popup_div_id"></div>
+                                <div class="amort_display_div" id="amort_display_div_id" style="width:100%;"> </div>
+                            </div>
+                            <div id="kb_container_div_id"> </div>
+                        </div>
+                        <div id="special_series_background_id"> </div>
+                        <div id="small_special_series_div_id">
+                            <label id="small_sstype_label_id">Normal Series</label>
+                            <button id="small_ss_ok_btn_id" type="button">Ok</button>
+                            <button id="small_ss_cancel_btn_id" type="button">Cancel</button>
+                        </div>
+                        <div id="points_and_fees_div_id"> </div>
+                        <div id="special_series_div_id">
+                            <div class="ss_tabs ss_tab_row1" id="ss_tab_group1_id">
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('normal_tab_id', 'normal_panel_id');" id="normal_tab_id">Normal Series</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('interestonly_tab_id', 'interestonly_panel_id');" id="interestonly_tab_id">Interest Only</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('fixedprincipal_tab_id', 'fixedprincipal_panel_id');" id="fixedprincipal_tab_id">Fixed Principal + Interest</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('existingfixed_tab_id', 'existingfixed_panel_id');" id="existingfixed_tab_id">Existing Fixed</a>
+                            </div>
+                            <div class="ss_tabs ss_tab_row2" id="ss_tab_group2_id">
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('principalfirst_tab_id', 'principalfirst_panel_id');" id="principalfirst_tab_id">Principal First</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('amountstep_tab_id', 'amountstep_panel_id');" id="amountstep_tab_id">Amount Step</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('percentstep_tab_id', 'percentstep_panel_id');" id="percentstep_tab_id">Percent Step</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('skippayment_tab_id', 'skippayment_panel_id');" id="skippayment_tab_id">Skip Series</a>
+                                <a href="javascript:void(0);" class="ss_tab" onclick="return event.returnValue = showSSPanel('monthlyskip_tab_id', 'monthlyskip_panel_id');" id="monthlyskip_tab_id">Monthly Skip</a>
+                            </div>
+                            <div class="ss_panels">
+                                <div class="ss_panel ss_selectedPanel" id="normal_panel_id"> </div>
+                                <div class="ss_panel" id="interestonly_panel_id"> </div>
+                                <div class="ss_panel" id="fixedprincipal_panel_id"> </div>
+                                <div class="ss_panel" id="existingfixed_panel_id"> </div>
+                                <div class="ss_panel" id="principalfirst_panel_id"> </div>
+                                <div class="ss_panel" id="amountstep_panel_id"> </div>
+                                <div class="ss_panel" id="percentstep_panel_id"> </div>
+                                <div class="ss_panel" id="skippayment_panel_id"> </div>
+                                <div class="ss_panel" id="monthlyskip_panel_id"> </div>
+                                <button id="ss_ok_btn_id" type="button">Ok</button>
+                                <button id="ss_cancel_btn_id" type="button">Cancel</button>
+                            </div>
+                        </div>
+                        <div id="report_format_background_id"> </div>
+                        <div id="report_format_div_id">
+                            <div class="rf_tabs rf_tab_row1" id="rf_tab_group1_id">
+                                <a href="javascript:void(0);" class="rf_tab" onclick="return event.returnValue = ReportFormatDisplay.showPanel('layout_tab_id', 'layout_panel_id');" id="layout_tab_id">Layout</a>
+                                <a href="javascript:void(0);" class="rf_tab" onclick="return event.returnValue = ReportFormatDisplay.showPanel('header_tab_id', 'header_panel_id');" id="header_tab_id">Header</a>
+                                <a href="javascript:void(0);" class="rf_tab" onclick="return event.returnValue = ReportFormatDisplay.showPanel('footer_tab_id', 'footer_panel_id');" id="footer_tab_id">Footer</a>
+                                <a href="javascript:void(0);" class="rf_tab" onclick="return event.returnValue = ReportFormatDisplay.showPanel('font_tab_id', 'font_panel_id');" id="font_tab_id">Fonts</a>
+                            </div>
+                            <div class="rf_panels">
+                                <div class="rf_panel rf_selectedPanel" id="layout_panel_id"> </div>
+                                <div class="rf_panel" id="header_panel_id"> </div>
+                                <div class="rf_panel" id="footer_panel_id"> </div>
+                                <div class="rf_panel" id="font_panel_id"> </div>
+                            </div>
+                            <button id="rf_reset_btn_id" type="button">Reset to factory defaults</button>
+                            <button id="rf_save_as_default_btn_id" type="button">Save as default</button>
+                            <button id="rf_save_btn_id" type="button">Save</button>
+                            <button id="rf_cancel_btn_id" type="button">Cancel</button>
+                        </div>
+                        <div id="label_display_background_id"> </div>
+                        <div id="label_display_div_id"> </div>
+                        <div id="fiscal_year_background_id"> </div>
+                        <div id="fiscal_year_div_id"> </div>
+                        <div id="email_background_id"> </div>
+                        <div id="email_div_id"> </div>
+                        <div id="file_save_open_background_id"> </div>
+                        <div id="file_save_open_div_id"> </div>
+                        <div id="new_folder_background_id"> </div>
+                        <div id="new_folder_div_id"> </div>
+                        <div id="rename_background_id"> </div>
+                        <div id="rename_div_id"> </div>
+                        <div id="should_save_schedule_background_id"> </div>
+                        <div id="should_save_schedule_div_id"> </div>
+                        <div id="compute_options_background_id"> </div>
+                        <div id="compute_options_div_id"> </div>
+                        <div id="report_range_background_id"> </div>
+                        <div id="report_range_div_id"> </div>
+                        <div id="include_options_background_id"> </div>
+                        <div id="include_options_div_id"> </div>
+
+                        <div id="input_setup_div_id"> </div>
+                        <div id="event_names_background_id"> </div>
+                        <div id="event_names_div_id"> </div>
+                        <div id="rounding_background_id"> </div>
+                        <div id="rounding_div_id"> </div>
+                        <div id="balance_background_id"> </div>
+                        <div id="balance_div_id"> </div>
+                        <div id="totals_background_id"> </div>
+                        <div id="totals_div_id"> </div>
+                        <div id="multi_loan_warning_background_id"> </div>
+                    </form>
+                </div>
+                <div id="msg_window_background_id">
+                    <div id="msg_window_id">
+                        <div id="msg_inner_window_id">
+                            <p id="display_msg_id"></p>
+                        </div>
+                        <button id="display_msg_btn1_id" type="button">Yes</button>
+                        <button id="display_msg_btn2_id" type="button">No</button>
+                    </div>
+                </div>
+
+                <div id="wait_window_id">
+                    <p id="wait_message_id"></p>
+                </div>
+                <div id="file_options_background_id"> </div>
+                <div id="file_options_div_id"> </div>
+                <div id="file_select_file_to_open_id" style="display:none">
+                    <input id="fileupload_input_id" type="file" name="files[]" data-url="https://tvalueonline.com/TValuePages/TValueAjaxPage.aspx" onblur="FileDisplay.onSelectedFileCancel();" onchange="FileDisplay.onSelectedFileToOpen();" />
+                </div>
+                <div id="server_request_msg_background_id">
+                    <div id="server_request_msg_div_id">
+                        <button id="server_request_msg_btn_id" type="button">Ok</button>
+                        <textarea id="server_request_msg_id" readonly="readonly"></textarea>
+                    </div>
+                </div>
+                <div id="copy_to_clipboard_background_id">
+                    <div id="copy_to_clipboard_div_id">
+                        <p id="copy_to_clipboard_msg_id"></p>
+                        <textarea id="copy_to_clipboard_textarea_id"></textarea>
+                        <button id="copy_to_clipboard_btn_id" type="button">Done</button>
+                    </div>
+                </div>
+            </div>
+
+        </apex:pageblock>
+    </apex:form>
+
+
+    <apex:includescript value="{!URLFOR($Resource.TValue,'TValue/scripts/tvalueonline.js')}" />
+
+
+
+    <script type="text/javascript">
+        // Override the TValueOnline server request function. Thus all requests to the server will go thru this function.
+        var storedDoneCallback = null;
+        var storedFailCallback = null;
+
+        var sendToTValueServerFinished = function (result, event) {
+            // See if Success.
+            if ((event.status) && (result !== '')) {
+                if ((storedDoneCallback) && (storedDoneCallback != null)) {
+                    var jsonStr = result.replace(new RegExp('\&quot\;', 'g'), '"');
+                    jsonStr = jsonStr.replace(new RegExp('\&gt\;', 'g'), '>');
+                    jsonStr = jsonStr.replace(new RegExp('\&lt\;', 'g'), '<');
+                    jsonStr = jsonStr.replace(new RegExp('\&apos\;', 'g'), "'");
+                    jsonStr = jsonStr.replace(new RegExp('\&amp\;', 'g'), '&');
+                    //alert(" Success. JsonStr = " + jsonStr);
+
+                    try {
+                        var obj = JSON.parse(jsonStr);
+                        storedDoneCallback(obj);
+                    }
+                    catch (e) {
+                        displayMessage("Unable to contact server.");
+                    }
+                }
+            }
+            else {      // Fail.
+                if ((storedFailCallback) && (storedFailCallback != null)) {
+                    var jqXHR = null;
+                    var textStatus = event.message;
+                    storedFailCallback(jqXHR, textStatus);
+                }
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        overrideTValueServerRequestFnc = function (actionAndInputObj, doneCallback, failCallback) {
+            var jsonStr = JSON.stringify(actionAndInputObj, null, 3);
+            storedDoneCallback = doneCallback;
+            storedFailCallback = failCallback;
+            // changed from parent to window
+            window.sendToTValueServer(jsonStr);
+        }
+    </script>
+    <script type="text/javascript">
+        onTValueDocumentReadyFnc = function () {
+            ReadTValueFromBrowserLocalStorage = false;
+            ExcludeNewOpenAndSaveFromDocumentDropdown = true;
+            HideLogoutAndAccountButtons = true;
+        }
+    </script>
+    <script type="text/javascript">
+        onTValueHasStartedFnc = function () {
+            var docName = window.salesForceLoadTValue();
+            jqTVS('#div_insert_id').addClass('{!$Setup.tvaluesettings__c.Insert__c}');
+            jqTVS('#div_delete_id').addClass('{!$Setup.tvaluesettings__c.Delete__c}');
+            jqTVS('#div_expand_id').addClass('{!$Setup.tvaluesettings__c.Expand__c}');
+            jqTVS('#div_compress_id').addClass('{!$Setup.tvaluesettings__c.Compress__c}');
+            jqTVS('#div_sort_id').addClass('{!$Setup.tvaluesettings__c.Sort__c}');
+            jqTVS('#div_rounding_id').addClass('{!$Setup.tvaluesettings__c.Rounding__c}');
+            jqTVS('#div_balance_id').addClass('{!$Setup.tvaluesettings__c.Balance__c}');
+            jqTVS('#div_totals_id').addClass('{!$Setup.tvaluesettings__c.Totals__c}');
+            jqTVS('#div_options_id').addClass('{!$Setup.tvaluesettings__c.Compute_Options__c}');
+            jqTVS('#div_input_setup_id').addClass('{!$Setup.tvaluesettings__c.Input_Setup__c}');
+            jqTVS('#div_event_names_id').addClass('{!$Setup.tvaluesettings__c.Event_Names__c}');
+            jqTVS('#div_restore_id').addClass('{!$Setup.tvaluesettings__c.restore_unknown__c}');
+            jqTVS('#div_calculate_id').addClass('{!$Setup.tvaluesettings__c.Calculate__c}');
+            jqTVS('#tabbar_div_id').addClass('{!$Setup.tvaluesettings__c.amortization__c}');
+            jqTVS('#flip_btn_div_id').addClass('{!$Setup.tvaluesettings__c.amortization__c}');
+            jqTVS('#iconbar_row_id').find('#amort_btn_id').addClass('{!$Setup.tvaluesettings__c.amortization__c}');
+            // changed above from parent to window
+            //alert("In onTValueHasStartedFnc, docName = " + docName);
+            //Cfm.setFileName(docName);
+            //CfmDisplay.displayCfm();
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        TValueWindow = null;
+
+        var salesForceLoadTValue = function () {
+            TValueWindow = window;
+
+            var myReferer = document.getElementById('TValueRefererId').value;
+            if ((typeof myReferer === 'undefined') || (myReferer === "")) {
+                document.getElementById('TValueRefererId').value = "{!initialReferer}";
+            }
+            remoteRead();
+
+            return "{!TValueDocument.name}";
+        };
+
+        var gotoReferrer = function () {
+            var url = document.getElementById('TValueRefererId').value;
+            if ((typeof url !== 'undefined') && (url !== "")) {
+                window.location = url;
+            }
+        };
+
+
+        var onRemoteReadDone = function (result, event) {
+            if (event.status) {
+                if (result === "") {
+                    TValueWindow.Cfm.createNewSchedule();
+                    var tvdocname = "{!TValueDocument.name}";
+                    TValueWindow.Cfm.setFileName(tvdocname);
+                }
+                else {
+                    var str = result.replace(new RegExp('\&quot\;', 'g'), '"');
+                    TValueWindow.Cfm.loadCfmFromJsonString(str);
+                    var tvname = "{!TValueDocument.name}";
+                    TValueWindow.Cfm.setFileName(tvname);
+                }
+                TValueWindow.CfmDisplay.displayCfm();
+                TValueWindow.hideWaitMessage();
+            }
+            else {
+                alert("Unable to read: " + event.message + ".");
+                TValueWindow.hideWaitMessage();
+            }
+        };
+
+        var remoteRead = function () {
+            var iFrameCfm = TValueWindow.Cfm;
+            var rateStr = iFrameCfm.getValueForField(-2, -1);
+            rateStr = rateStr.replace('%', '');
+            var rate = parseFloat(rateStr);
+            var id = "{!TValueDocument.id}";
+            var jsonString = iFrameCfm.getCfmAsJsonString();
+            //console.log(TValueWindow);
+            //console.log(TValueWindow.Cfm);
+            //console.log(iFrameCfm);
+            //console.log(jsonString);
+            TValueDetailS1.remoteRead(id, onRemoteReadDone);
+        };
+
+
+        var onRemoteSaveDone = function (result, event) {
+            if ((event.status) && (result === true)) {
+                /*Save was successful. Submit to update values on screen. */
+                /*alert("Save successful."); */
+                document.getElementById('{!$Component.TValueFormId}').submit();
+            }
+            else {
+                if (event.message === '') { alert("Unable to save."); }
+                else { alert("Unable to save: (" + event.typeName + ") " + event.message + "."); }
+                TValueWindow.hideWaitMessage();
+            }
+        };
+
+
+        var remoteSave = function () {
+            var cfm = TValueWindow.Cfm;
+            var id = "{!TValueDocument.id}";
+            var jsonStr = cfm.getCfmAsJsonString();
+            TValueWindow.displayWaitMessage("Saving TValue Document<br /><br />One moment please...");
+            /*alert("JsonStr = " + jsonStr); */
+            TValueDetailS1.remoteSave(id, jsonStr, onRemoteSaveDone);
+        };
+
+
+        var onSendToTValueServerDone = function (result, event) {
+            TValueWindow.hideWaitMessage();
+            if ((event.status) && (result !== '')) {
+                //console.log("SendToValueServer Successful. " + result);
+            }
+            else {
+                alert("SendToValueServer Failed: " + event.message + ".");
+            }
+            TValueWindow.sendToTValueServerFinished(result, event);
+        };
+
+
+        var sendToTValueServer = function (bodyContent) {
+            /*alert("Calling remoteTValueCallout = " + bodyContent); */
+            TValueDetailS1.remoteTValueCallout(bodyContent, onSendToTValueServerDone);
+        };
+
+    </script>
+
+</apex:page>

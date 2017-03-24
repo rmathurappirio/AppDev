@@ -1,0 +1,52 @@
+<apex:page controller="Auth2">
+<body>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<apex:form >
+
+<!-- Hidden field to store a new value of the variable -->
+<apex:inputHidden value="{!myString}" id="myHiddenField"/>
+
+<!-- Action function for the rerendering -->
+<apex:actionFunction name="passStringToController" action="{!myMethod}" rerender="myHiddenField"/>
+
+<!-- A command button for sending a call to the function -->
+<apex:commandButton id="butt" value="Test me" action="{!myMethod}"  />
+</apex:form>
+<script type="text/javascript">
+    $(document).ready(function(){
+              var param =  decodeURI(GetURLParameter('access_token'));
+        jQuery('[id$=myHiddenField]').val(param);
+        console.log(accessToken);
+        passStringToController();
+      });
+      function getToken(){
+            //Get access token.
+        //Because the access token is a URL parameter it needs to be decoded
+        var param =  decodeURI(GetURLParameter('access_token'));
+        jQuery('[id$=myHiddenField]').val(param);
+        console.log(accessToken);
+        passStringToController();
+    }
+
+        //Use this function to get the access token from the URL
+        function GetURLParameter(sParam)
+        {
+            var mainURL = document.location+'';
+            var pageUrls = mainURL.split('#');
+            var sURLVariables = pageUrls[1].split('&');
+            for (var i = 0; i < sURLVariables.length; i++)
+            {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] == sParam)
+                {
+                    return sParameterName[1];
+                }
+            }
+        }
+
+</script>
+   {!resp}<br></br>
+   {!myString}</body>
+</apex:page>

@@ -1,0 +1,19 @@
+<apex:page showHeader="true" sidebar="true" standardStylesheets="false" standardController="Account">
+<head>
+        <script type="text/javascript" src="/canvas/sdk/js/31.0/controller.js"></script>
+</head>
+<body>
+<input type="button" value="Publish Button" onClick="publishEvent();"/> 
+<apex:canvasApp applicationName="Integration" height="1000px" scrolling="yes" width="100%" parameters="{'Name':'Rohit Mathur','SFDC':'true'}"/>  
+</body>
+<script>
+function publishEvent(){
+Sfdc.canvas.controller.publish({
+                                name: 'myns.EstimateDetails',
+                                payload: {
+                                    value: 'alert!!!!'
+                                }
+                            });
+}
+</script>        
+</apex:page>

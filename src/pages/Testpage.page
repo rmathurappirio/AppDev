@@ -1,0 +1,10 @@
+<apex:page >
+    <apex:form >
+    <apex:pageBlock >
+        
+            <apex:commandLink value="" action="/apex/Authorise"  immediate="true"
+                target="_blank" style="text-decoration:none;" />
+            
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,10 @@
+<apex:component >
+	 <!--jQuery Library -->
+	 <apex:includeScript value="{!URLFOR($Resource.FFHR1_SurveyApp, 'js/jquery-2.1.4.min.js') }" />
+	 <apex:includeScript value="{!URLFOR($Resource.FFHR1_SurveyApp, 'js/jquery.jqtransform.js') }" />
+	 <apex:includeScript value="{!URLFOR($Resource.FFHR1_SurveyApp, 'lib/bootstrap/js/bootstrap.min.js') }" />
+	 <apex:includeScript value="{!URLFOR($Resource.FFHR1_SurveyApp, 'js/intlTelInput.min.js') }" />
+	 <apex:includeScript value="{!URLFOR($Resource.FFHR1_SurveyApp, 'js/intlTelInputUtils.js') }" />
+	 <!-- Main JS -->
+	 <apex:includeScript value="{!URLFOR($Resource.FFHR1_SurveyApp, 'js/script.js') }" />
+</apex:component>

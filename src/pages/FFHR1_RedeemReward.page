@@ -1,0 +1,46 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" controller="FFHR1_RedemptionController" action="{!updateRedeemCode}">
+    <html>
+        <head>
+          <title>Welcome to Appirio Survey</title>
+          <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		  <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		  <meta name="apple-mobile-web-app-capable" content="yes" />
+		  <meta name="format-detection" content="telephone=no" />
+          <c:SurveyAppStyles />
+          <c:SurveyAppScripts />
+          
+        </head>
+        <body>
+          	<c:HeaderSidebarComponent />
+          	<main class="step-content">
+          	  <apex:form >
+	  			<div class="claim">
+	              <h2>Redeem Reward</h2>
+	             <!--  <img src="i/step-claim.jpg" alt="step claim"> -->
+	              <apex:image url="{!URLFOR($Resource.FFHR1_SurveyApp,'img/step-claim.jpg')}" alt="Step Claim"></apex:image>
+	              <a href="#" class="claim-btn" id="redeemCode" value='{!RedeemCodeName}'>{!RedeemCodeName}</a>
+	              <p class="confirm">
+	                Please arrive at the Redemption Center :<br/>
+	                <!--<a href="{!Location}">-->
+	                Appirio Reward Headquarters (11th Floor)
+	                <!--</a>-->
+	              </p>
+	              <!-- Citymapper -->
+	              <!-- <a href="{!Location}" class="blue-btn"> Take me there!</a> -->
+	              <apex:commandLink value="Take Me There" action="{!getLocation}" styleClass="blue-btn"></apex:commandLink>
+	            </div>
+	            <!-- end .claim -->
+	          </apex:form>
+	        </main>
+
+            <footer class="footer">
+	            <div>
+	              <a href="FFHR1_ShareSurveyPage" class="block continue-btn hide">Continue</a>
+	            </div>
+          </footer>
+          <!-- end .footer -->
+        </body>
+    </html>
+    
+</apex:page>

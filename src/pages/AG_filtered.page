@@ -1,0 +1,14 @@
+<apex:page sidebar="false" showHeader="false" docType="html-4.01-strict">
+<button value="custom" >custom</button>
+<CRMC_PP:Grid ObjectName="Contact" DelayLoad="false"  ViewID="a0Q9000000HsK3EEAV" 
+ EnableNewButton="false"  EnableNewInline="false"  EnableEdit="false"  EnableActions="true"  EnableFieldChooser="false" 
+ EnableStickyViews="false"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="false"  EnableReadingPane="false" />
+<CRMC_PP:DrillUp />
+
+<CRMC_PP:Grid ObjectName="Contact" DelayLoad="false"  ViewID="a0Q9000000HsImAEAV" 
+ EnableNewButton="true"  EnableNewInline="true"  EnableEdit="true"  EnableActions="true"  EnableFieldChooser="true" 
+ EnableStickyViews="true"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="true"  EnableReadingPane="true" />
+<CRMC_PP:DrillUp />
+
+
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:page sidebar="false" showHeader="false" docType="html-4.01-strict">
+<div id="tabstrip" style="display:none;"> <ul> 
+<li class="k-state-active">Team Member</li>
+<li>Project Contacts</li>
+</ul>
+<!-- Team Member -->
+<div> 
+<CRMC_PP:Grid ObjectName="Contact" DelayLoad="false"  ViewID="a0Q9000000HsK3EEAV" 
+ EnableNewButton="false"  EnableNewInline="false"  EnableEdit="false"  EnableActions="false"  EnableFieldChooser="false" 
+ EnableStickyViews="false"  EnableToolbar="false"  EnableViews="false"  EnableFormatting="false"  EnableReadingPane="false" />
+ <CRMC_PP:DrillUp /> 
+ </div>
+</div>
+<script>
+function tryLoad() {
+     if (!$(".k-i-seek-w").size()) {
+        window.requestAnimationFrame(tryLoad);// give everything some time to render
+     }
+    else{  
+         $(".k-i-seek-w").click(function(){
+        alert(" << Clicked First ");
+         });
+    }
+    
+    
+   }
+$(document).ready(function() {
+    tryLoad();
+    $("#tabstrip").kendoTabStrip({
+      activate: function(e){
+        setTimeout(function(){          $(window).resize();        });
+      }
+    });
+    $("#tabstrip").css("display", "block");
+});
+
+ </script>
+</apex:page>

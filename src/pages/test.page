@@ -1,0 +1,25 @@
+<apex:page sidebar="false" showHeader="false">
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"/>
+    <style>
+        body{
+        background-color : #5D5D79;
+        }
+        
+        h1{
+            color:white;
+            font-size: xx-large;}
+        }
+    </style>
+</head>
+<body>
+<h1 id="name"></h1>
+<script>
+        $('#name')[0].textContent ="Welcome Rohit" ;
+        console.log($('#userNavButton').textContent);
+        
+</script>
+</body>
+</html>
+</apex:page>

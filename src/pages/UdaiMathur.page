@@ -1,0 +1,8 @@
+<apex:page sidebar="false" showHeader="false" controller="udaictrl">
+      <apex:pageBlock >
+        <apex:pageBlockTable value="{!accountlist}" var="o">
+        <apex:column value="{!o.Name}"/>
+        <apex:column value="{!autList[o.id].Name}"/>
+        </apex:pageBlockTable>
+  </apex:pageblock>
+</apex:page>

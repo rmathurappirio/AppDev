@@ -1,0 +1,12 @@
+<apex:component >
+	<!-- Bootstrap -->
+	<apex:stylesheet value="{!URLFOR($Resource.FFHR1_SurveyApp, '/lib/bootstrap/css/bootstrap.min.css')}" />
+	<apex:stylesheet value="{!URLFOR($Resource.FFHR1_SurveyApp, '/lib/bootstrap/css/bootstrap-theme.min.css')}" />
+	<!-- Main CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.FFHR1_SurveyApp, '/css/font.css')}" />
+	<apex:stylesheet value="{!URLFOR($Resource.FFHR1_SurveyApp, '/css/intlTelInput.css')}" />
+	<apex:stylesheet value="{!URLFOR($Resource.FFHR1_SurveyApp, '/css/jqtransform.css')}" />
+	<apex:stylesheet value="{!URLFOR($Resource.FFHR1_SurveyApp, '/css/screen.css')}" />
+	
+
+</apex:component>

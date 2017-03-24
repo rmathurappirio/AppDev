@@ -1,0 +1,8 @@
+<apex:page standardController="Society__c" showHeader="false" renderAs="pdf">
+    <center><h1> {!$User.FirstName} {!$User.LastName} </h1></center>
+    <apex:pageBlock >
+        <apex:detail />
+        <apex:pageBlockSection >
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>

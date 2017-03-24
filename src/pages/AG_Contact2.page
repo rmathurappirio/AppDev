@@ -1,0 +1,6 @@
+<apex:page sidebar="false" showHeader="false" docType="html-4.01-strict">
+<CRMC_PP:Grid ObjectName="Contact" DelayLoad="false"  ViewID="" 
+ EnableNewButton="false"  EnableNewInline="false"  EnableEdit="false"  EnableActions="true"  EnableFieldChooser="false" 
+ EnableStickyViews="false"  EnableToolbar="true"  EnableViews="true"  EnableFormatting="false"  EnableReadingPane="false" />
+<CRMC_PP:DrillUp />
+</apex:page>

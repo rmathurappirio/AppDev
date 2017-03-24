@@ -1,0 +1,20 @@
+<apex:page sidebar="false" standardController="TValueDocument__c" >
+	<style>.apexp .bPageBlock.apexDefaultPageBlock .pbBody {margin: 7px 0px 7px!important;}
+	.mybutton, .Reallink{padding: 5px!important;text-decoration:none;}
+	.linknounderline{text-decoration:none!important;}
+	</style>
+	<apex:sectionHeader title="TimeValue Software™" subtitle="New TValue Schedule"/>
+	<apex:form id="TValueFormId">
+		<apex:pageBlock title="Lease Pricing Information" id="tvalue-title">
+			<apex:pageBlockButtons >
+				<apex:commandButton action="{!save}" value="Save File" styleClass="Reallink" />
+				<apex:outputLink value="/{!TValueDocument__c.Opportunity__c}" styleClass="linknounderline"><span class="btn mybutton">Cancel</span></apex:outputLink>
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection columns="2">
+				<apex:inputField value="{!TValueDocument__c.name}"/>
+				<apex:inputField value="{!TValueDocument__c.Opportunity__c}"/>
+			</apex:pageBlockSection>
+			<input name="TValueRefererName" id="TValueRefererId" type="hidden" value="" />
+		</apex:pageBlock>
+	</apex:form> 
+</apex:page>

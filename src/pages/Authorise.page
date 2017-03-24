@@ -1,0 +1,11 @@
+<apex:page >
+<script>
+var Authorise;
+function myFunction() {
+  window.open("https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9Y6d_Btp4xp7nDYlO.lkYyRmKPNCPi4h0tTpaa2nw8KxJQR28CViKxtwWXR.qLA9H1tHKNQgXVpwnxas.&redirect_uri=https://rmrohit963-dev-ed--c.ap1.visual.force.com/apex/HelloWorld", '_blank', 'toolbar=0,location=0,menubar=0');
+  }
+</script>
+   <P>Click this button to generate Access token</p>
+   
+  <input type="button" value="Authorise" onclick="myFunction()" />
+ </apex:page>

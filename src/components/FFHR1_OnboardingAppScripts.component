@@ -1,0 +1,7 @@
+<apex:component >
+    <apex:includeScript value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'js/jquery.js') }" />
+    <apex:includeScript value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'js/bootstrap.js') }" />
+    <apex:includeScript value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'js/moment.js') }" />
+    <apex:includeScript value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'js/bootstrap-datetimepicker.js') }" />
+    <apex:includeScript value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'js/script.js') }" />
+</apex:component>

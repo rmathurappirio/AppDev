@@ -1,0 +1,159 @@
+<apex:page showHeader="false" controller="FFHR1_PhoneBypassCodeEntryController" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <apex:form id="theForm"> 
+    
+    <html>
+    <apex:outputpanel layout="block" id="error" style="position: absolute;top: 8%;">
+        <apex:pageMessages />
+    </apex:outputpanel>
+    
+        <head>
+          <!-- Meta Tags -->
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="format-detection" content="telephone=no" />
+          <title>Appirio Survey</title>
+          <c:SurveyAppStyles />
+          <c:SurveyAppScripts />
+        </head>
+        
+        
+        <body onload="javascript: setActive()">
+            
+          <c:HeaderSidebarComponent />
+          <main class="pass-content">
+            <c:ErrorComponent />
+            <div class="change-type">
+              <a href="javascript: setDirectSource()" class="phonenum active" id="PhoneTab">Phone Number</a><a href="javascript: setReferralSource()" class="passcode" id="BypassTab">Bypass Code</a>
+            </div>
+            <div class="bypasscode-content hide">
+              <p class="comment">We are going to send you a email message to 
+              confirm your identity.Please enter your code &amp; 
+              email address below.</p>
+              <div class="input-area">
+                <div class="code" style="{!if(!displayByPass, 'display: none;', '')}">
+                  <span>Code</span>
+                  <div class="value">
+                    <input type="text" id="bypassCode" placeholder="your bypass code" value="{!lead.Bypass_Code__c}"  />
+                  </div>
+                </div>
+                <div class="email">
+                  <span>Email</span>
+                  <div class="value email-value">
+                    <input type="text" id="email" placeholder="your email address" value="{!lead.Email__c}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="phonenum-content">      
+              <p class="comment">We are going to send you a text message to 
+              confirm your identity. Please enter your mobile 
+              number below.</p>
+             <!-- <div class="input-area">
+                <div class="phone digital2">
+                  <span class="flag-left">
+                    <img src="i/flag.jpg" alt="flag" class="flag">
+                    
+                    <span class="phone-number-text">+62</span>
+                  </span>
+                  
+                 <div class="value phone-value">
+                   <div class="phone-input">
+                    
+                     <input class="phone-number-input" type="text" placeholder="your mobile number">
+                    </div>
+                  </div>
+                </div>
+              </div>-->
+              <div class="value form-phone form-group" id="phoneCode">
+                  <input type="tel" id="mobile-number" class="phone-number-input" name="mobilenumber" placeholder="your mobile number"/>
+              </div>
+            </div>
+                <div class="snap-content hide">      
+                  <div class="snap-photo">
+                    <apex:image url="{!URLFOR($Resource.FFHR1_SurveyApp,'img/snap-photo.jpg')}" alt="snap photo"></apex:image>
+                   <!--  <img src="i/snap-photo.jpg" alt="snap photo"> -->
+                  </div>
+                  <a href="javascript:;" class="blue-btn">Snap Photo</a>
+                </div>
+            
+            
+          </main>
+          <footer class="footer">
+            <a href="javascript: void(0);" onclick="return continueLink();return false;" class="block continue-btn" >Continue</a>
+          </footer>
+              <!-- end .footer -->
+            <script>
+              $("#mobile-number").intlTelInput({
+                defaultCountry: 'US',
+                utilsScript: "js/intlTelInputUtils.js", nationalMode: true
+              });
+            </script>
+            
+        </body>
+        
+    </html>
+        <script>
+            var source = 'Direct';
+
+            function setActive()
+            {
+              if('{!$Request.bc}'!='')
+              {
+                 $(".phonenum-content").addClass("hide");
+                 $(".bypasscode-content").removeClass("hide");
+
+                 $("#PhoneTab").removeClass("active");
+                 $('#BypassTab').addClass("active");
+                 source='Referral';
+              }
+            }
+            function setDirectSource(){
+                source = 'Direct';
+            }
+            function setReferralSource(){
+                source = 'Referral';
+            }
+            function continueLink(){
+                var phoneNumber = $("#mobile-number").intlTelInput("getNumber");
+                var bypassCode = document.getElementById('bypassCode').value;
+                var email = document.getElementById('email').value;
+                var src = source;
+                if(src =='Direct'){
+                    if(phoneNumber == '') 
+                    {alert('Please enter your phone number');var error=true;return false;}
+                    else {
+                    continueFunction(phoneNumber, '', '', src);
+                    }
+                }
+                else if(src == 'Referral'){
+                    if(bypassCode != '' && email == '') {alert('Please enter email');
+                    var error=true;
+                    return false; }
+                    else if(bypassCode == '' && email != '') {alert('Please enter Bypass Code');
+                    var error=true;
+                    return false;}
+                    else if(bypassCode == '' && email == '') {alert('Please enter Bypass Code and email');
+                    var error=true;
+                    return false;}
+                    else {
+                    continueFunction('', bypassCode, email, src);
+                    }
+                }
+                if(!error)
+                {
+                  location.href='FFHR1_ThankYouPage';
+                }                
+            }
+        </script>
+        <apex:variable var="" value=""/>
+        <apex:actionFunction name="continueFunction" action="{!continueButton}" rerender="error" >
+            <apex:param name="phoneNumber" assignTo="{!phoneNumber}" value="" />
+            <apex:param name="bypassCode" assignTo="{!lead.Bypass_Code__c}" value="" />
+            <apex:param name="email" assignTo="{!lead.Email__c}" value="" />
+            <apex:param name="source" assignTo="{!lead.Source__c}" value="" />
+        </apex:actionFunction>
+    
+    </apex:form>
+    
+</apex:page>

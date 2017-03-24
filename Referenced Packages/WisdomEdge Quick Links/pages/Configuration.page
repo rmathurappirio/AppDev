@@ -1,0 +1,110 @@
+<apex:page controller="ccg_qlinks.CCGWeb2LeadController" tabStyle="Cirrus_Quick_Links__tab" showHeader="true" sidebar="false" title="Cirrus Quick Links Configuration - salesforce.com">
+
+    <apex:sectionHeader title="WisdomEdge Quick Links" subtitle="Configuration & Feedback" />
+    <apex:pageMessages id="pageMessages" />
+    
+    <style type="text/css">
+        .pageTitleIcon {
+            background-image: url("{!$Resource.ccg_qlinks__welogo}");
+            height: 32px;
+            width: 32px;
+        }
+        .activeTab {
+            background-color: #236FBD; 
+            color:white; 
+            background-image:none;
+            font-size: 9pt;
+        }
+        
+        .inactiveTab { 
+            background-color: lightgrey; 
+            color:black; 
+            background-image:none;
+            font-size: 9pt;
+        }
+        
+        h2.ccg, h3.ccg {
+            margin-top: 10px;
+            display: block;
+            font-size: 12pt;
+        }
+        
+        h3.ccg { 
+            font-size: 10pt;
+            color: #236FBD;
+        }
+        
+        ol.ccg li, p.ccg {
+            font-size: 9pt;
+        }
+    </style>
+    
+    <apex:outputPanel id="ccg">
+    <apex:tabPanel switchType="client" id="ccgtabs" tabClass="activeTab" inactiveTabClass="inactiveTab">
+        <apex:tab id="configuration" label="Configuration" >
+            
+            <apex:pageBlock title="Configuration Instructions">
+                <p class="ccg">WisdomEdge Quick Links is an administrator productivity tool that provides easy access to some of the administration areas within salesforce.com that you use most. Follow the configuration instructions below to replace the standard Salesforce header links with a custom administration link menu</p>
+                
+                <h3 class="ccg">Adding the Admin Quick Links Menu</h3>
+                <p class="ccg"><i>Summary</i>: Add the Admin Links home page component to the home page layout for the users that will use this menu. If you only have one home page layout configured for your organization and you do not want all users to see the menu, you must create a new home page layout for each user profile that will not use the menu.</p> 
+                <ol class="ccg">
+                    <li>From the salesforce.com Setup screen, navigate to: Customize &gt; Home &gt; <a href="/02T?setupid=HomePageLayouts">Home Page Layouts</a>.</li>
+                    <li>Edit each of the desired home page layouts, and check the box next to "Admin Quick Links". Click "Next" and then "Save".</li>
+                    <li>Must Enable “Show Custom Sidebar Components on All Pages” in the User Interface menu.</li>
+                </ol>
+                
+                <h3 class="ccg">Known Limitations</h3>
+                <p class="ccg">Because the Admin Quick Links menu is deployed as a custom home page component the following limitations exist:</p>
+                <ul>
+                    <li>Admin Quick Links are not avaialble in the setup area.</li>
+                    <li>Admin Quick Links are only available in the salesforce.com organization where this application is installed.</li>
+                </ul>
+            </apex:pageBlock>
+            
+        </apex:tab>
+        <apex:tab id="feedback" label="Feedback" >
+
+            <apex:form >
+                <apex:actionFunction name="submitWithSource" action="{!passLeadSource}" rerender="pageMessages">
+                    <apex:param name="s" value="" />
+                </apex:actionFunction>
+            
+                <apex:pageBlock title="Feedback Form">
+                    <apex:pageBlockSection showHeader="false" columns="1">
+                        <apex:outputField value="{!leadObj.Firstname}" />
+                        <apex:outputField value="{!leadObj.Lastname}" />
+                        <apex:outputField value="{!leadObj.Company}" />
+                        <apex:outputField value="{!leadObj.Title}" />
+                        <apex:inputField value="{!leadObj.Phone}" />
+                        <apex:inputField value="{!leadObj.Email}" required="true" />
+                        <apex:inputField value="{!leadObj.Description}" required="true" style="width: 400px" />
+        
+                        <apex:pageBlockSectionItem >
+                            <span>&nbsp;</span>
+                            <apex:outputPanel layout="none">
+                                <apex:inputCheckbox value="{!OptIn}" id="optin" />
+                                <apex:outputLabel for="optin">I would like to receive occasional updates about this and other WisdomEdge, Inc. products for Salesforce.com.</apex:outputLabel>
+                                <p style="font-style: italic">WisdomEdge, Inc.  maintains high standards for the protection of privacy over the Internet. Your information will be kept private and will not be sold.</p>
+                            </apex:outputPanel>
+                        </apex:pageBlockSectionItem>
+                    </apex:pageBlockSection>
+                    
+                    <apex:pageBlockButtons location="bottom">
+                        <apex:commandButton onclick="submitWithSource('App Feedback - WisdomEdge Quick Links')" value="Submit" rerender="pageMessages" />
+                    </apex:pageBlockButtons>
+                </apex:pageBlock>
+            </apex:form>
+        </apex:tab>
+    </apex:tabPanel>
+    
+    <h2 class="ccg">About WisdomEdge, Inc.</h2>
+    <p>WisdomEdge, Inc. is an ISV, Cloud Alliance, and Product Development Outsourcer (PDO) partner with Salesforce.com As trusted partners, we work with clients to deliver exceptional outcomes with integrity and innovation on the Salesforce.com platform.</p>
+    <p>We focus on North American and have staff in PDT, CST, EST, and IST. For product feedback, please <a href="https://ccg-qlinks-developer-edition--ccg-qlinks.na8.visual.force.com/apex/Configuration?t=f">contact us</a> or visit <a href="http://www.wisdomedge.com/" target="_blank">our website</a>.</p>
+    <!-- <p><a href="http://twitter.com/#!/wisdomedge" target="_blank"><img src="https://twitter-badges.s3.amazonaws.com/follow_us-a.png" alt="Follow us on Twitter" border="0" /></a></p> -->
+    
+    <script type="text/javascript">
+        RichFaces.switchTab('j_id0:ccgtabs','{!selectedTab}','feedback');
+    </script>
+    </apex:outputPanel>
+</apex:page>

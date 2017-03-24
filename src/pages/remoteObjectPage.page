@@ -1,0 +1,121 @@
+<apex:page >
+  <html>
+
+  <head>
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js" />
+    <apex:includeScript value="https://code.jquery.com/jquery-2.2.1.min.js" />
+  </head>
+
+  <div ng-app="app" ng-controller="formController">
+    <!-- Remote Objects definition to set accessible sObjects and fields -->
+    <apex:remoteObjects >
+      <apex:remoteObjectModel name="Account" jsShorthand="Acc" fields="Name,Id,Date_of_Opening__c,Email_id__c" />
+      <apex:remoteObjectModel name="Contact" fields="Id,FirstName, LastName, AccountId" />
+    </apex:remoteObjects>
+
+    <h1>Retrieve Account via Remote Objects</h1>
+
+    <p ng-show="AccList.length > 0">Accounts:</p>
+
+    <ul id="AccsList1" ng-repeat= "acc in AccList">
+    	<li>{{acc.get("Name")}} -- {{acc.get("Email_id__c")}}</li>
+    </ul>
+    
+    <p ng-show="CntList.length > 0">Contacts:</p>
+    <ul id="AccsList2" ng-repeat= "cnt in CntList">
+    	<li>{{cnt.get("FirstName")}} -- {{cnt.get("LastName")}}</li>
+    </ul>
+    
+    <button ng-click="fetchAccs()">Retrieve Accounts</button>
+    <p>
+      <h1>Create Accounts :</h1>
+      <br/>
+      <label>Account Last Name:</label>
+      <input type="text" id="ACName" ng-model = 'AccountName' value="" /> {{AccountName}}
+      <br/>
+      <label>Account Email:</label>
+      <input type="text" id="Email" ng-model = 'AccountEmail' value="" />
+      <br/>
+      <label>Contact First Name:</label>
+      <input type="text" id="CFName" ng-model = 'ContactFirstName' value="" />
+      <br/>
+      <label>Contact Last Name:</label>
+      <input type="text" id="CLName" ng-model = 'ContactLastName' value="" />
+      <br/>
+
+      <input type="button" value="Create Account and Contact" ng-click="createAccountAndContacts()"/>
+    </p>
+  </div>
+
+
+  
+  <script>
+    var app = angular.module('app', []);
+    app.controller('formController', function($scope) {
+	  
+	  $scope.AccIdList = [];
+	  $scope.AccList = [];
+	  $scope.CntList = [];
+	  $scope.AccountName = '';
+	  $scope.ContactFirstName = '';
+	  $scope.ContactLastName = '';
+	  $scope.AccountEmail = '';
+	  
+      $scope.fetchAccs = function() {
+        // Create a new Remote Object
+        var ac = new SObjectModel.Acc();
+		var cn = new SObjectModel.Contact();
+		
+		
+        // Use the Remote Object to query for 10 Acc records
+        ac.retrieve({limit: 100}, function(err, records, event) {
+          if (err) {
+            alert(err.message);
+          } else {
+            $scope.AccList = records;
+            $scope.$apply();
+          }
+        });
+        
+        cn.retrieve({limit : 100}, function(err, records, event) {
+	          if (err) {
+	            alert(err.message);
+	          } else {
+	            $scope.CntList = records;
+	            $scope.$apply();
+	          }
+        });
+        
+      };
+
+	  $scope.createAccountAndContacts = function() {
+	      var acc = new SObjectModel.Acc();
+	      acc.set('Name', $scope.AccountName);
+	      acc.set('Email_id__c', $scope.AccountEmail);
+	      acc.create(function(error, result, event) {
+	        if (error == null) {
+	          alert('Account Created');
+	
+	          var ct = new SObjectModel.Contact();
+	          ct.set('FirstName', $scope.ContactFirstName);
+	          ct.set('LastName', $scope.ContactLastName);
+	          ct.set('AccountId', result[0]);
+	          ct.create(function(error, result, event) {
+	            if (error == null) {
+	              alert('Contact Created');
+	            } else {
+	              alert(error);
+	            }
+	          });
+	        } else {
+	          alert(error);
+	        }
+	      });
+	    }
+
+    });
+
+  </script>
+
+  </html>
+</apex:page>

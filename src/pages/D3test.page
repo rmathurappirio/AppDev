@@ -1,0 +1,26 @@
+<apex:page >
+    <head>
+      <script type="text/javascript" src="http://mbostock.github.com/d3/d3.min.js"></script>
+    </head>
+    <body>
+        <script>
+       //create new instance of forcetk which our rest api client to access salesforce reports and any other custom objects        
+        chartapp.client = new forcetk.Client();
+        //assign our current session id
+        chartapp.client.setSessionToken('{!$Api.Session_ID}');
+        //recommended fix to connection error
+        chartapp.client.proxyUrl = null;
+        chartapp.client.instanceUrl = '';
+        chartapp.client.ajax("/v31.0/analytics/reports/00O90000008F54p?includeDetails=true", function(response){
+            console.log("It Works! "); 
+            //process chart data
+            chartapp.initdata(response);
+        }, 
+        function(jqXHR, textStatus, errorThrown){
+            console.log("Error: "+jqXHR.status+" "+jqXHR.statusText);    
+            console.log(jqXHR.responseText);
+        });
+        </script>
+    </body>
+    
+</apex:page>

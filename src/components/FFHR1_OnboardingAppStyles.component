@@ -1,0 +1,6 @@
+<apex:component >
+    <apex:stylesheet value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'css/bootstrap.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'css/bootstrap-datetimepicker.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'css/style.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.FFHR1_OnboardingApp, 'css/theme.css')}" />
+</apex:component>

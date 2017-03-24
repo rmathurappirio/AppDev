@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>WisdomEdge Quick Links</fullName>
+    <apiAccessLevel>Restricted</apiAccessLevel>
+    <description>WisdomEdge Quick Links Application helps Admins, Sales Engineers, and other users quickly navigate to vital areas of Salesforce Administration that may be a little buried. 
+
+Every time we save a click, a baby owl gets it&apos;s wings!</description>
+    <namespacePrefix>ccg_qlinks</namespacePrefix>
+    <setupWeblink>Cirrus_Quick_Links_Setup</setupWeblink>
+    <types>
+        <members>CCGWeb2LeadController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Configuration</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Cirrus_Quick_Links_Setup</members>
+        <name>CustomPageWebLink</name>
+    </types>
+    <types>
+        <members>Cirrus_Quick_Links</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Cirrus_CG_Cirrus_Quick_Links</members>
+        <members>Cirrus_CG_Cirrus_Quick_Links/WE_Tab_Image.png</members>
+        <name>Document</name>
+    </types>
+    <types>
+        <members>Admin Quick Links</members>
+        <name>HomePageComponent</name>
+    </types>
+    <types>
+        <members>Salesforce_dot_com</members>
+        <name>RemoteSiteSetting</name>
+    </types>
+    <types>
+        <members>adminLinks</members>
+        <members>welogo</members>
+        <name>StaticResource</name>
+    </types>
+    <version>30.0</version>
+</Package>

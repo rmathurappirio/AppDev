@@ -1,0 +1,22 @@
+<apex:component >
+		<header class="header">
+		<a href="javascript:;" class="side-toggle"></a>
+		<a href="javascript:;" class="side-close hide"></a>
+		<div class="logo-box">
+		 <a href="javascript:;"><apex:image url="{!URLFOR($Resource.FFHR1_SurveyApp,'img/logo.png')}" alt="APPIRIO"></apex:image></a>
+		</div>
+		</header>
+		<!-- end .header -->
+		<aside class="hide">
+		<nav>
+		  <ul class="side-menus">
+		    <li><a href="javascript:;">REWARD</a></li>
+		    <li><a href="javascript:;">ABOUT</a></li>
+		    <li><a href="javascript:;">HELP</a></li>
+		    <li><a href="javascript:;">SETTING</a></li>
+		  </ul>
+		</nav>
+		</aside>
+		<!-- end aside -->
+
+</apex:component>

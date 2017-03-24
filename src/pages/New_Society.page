@@ -1,0 +1,17 @@
+<apex:page standardController="Society__c" extensions="society_ext">
+<apex:form >
+ <apex:pageBlock title="My Content" mode="edit">
+<apex:commandButton action="{!save}" value="Save" id="theButton" />
+<apex:commandButton action="{!cancel}" value="Cancel" id="thecancel"/>
+               
+                <apex:pageBlockSection title="Society Information" columns="2">
+                <apex:inputField value="{!Society__c.name}"/>
+                <apex:inputField value="{!Society__c.State__c}"/>
+                <apex:inputField value="{!Society__c.Area__c}"/>
+                <apex:inputField value="{!Society__c.Address__c}"/>
+                <apex:inputField value="{!Society__c.Country__c}"/>
+                <apex:inputField value="{!Society__c.Registration_Number__c}"/>
+                 </apex:pageBlockSection>
+                 </apex:pageBlock>
+</apex:form>
+</apex:page>

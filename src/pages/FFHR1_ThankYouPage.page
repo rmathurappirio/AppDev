@@ -1,0 +1,40 @@
+<apex:page showHeader="false" controller="FFHR1_PhoneBypassCodeEntryController" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+    <html>
+        <head>
+          <!-- Meta Tags -->
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="format-detection" content="telephone=no" />
+          <title>Appirio Survey</title>
+          <c:SurveyAppStyles />
+          <c:SurveyAppScripts />
+        </head>
+        <body>
+          <c:HeaderSidebarComponent />
+          <main class="pass-content">
+              <div class="step-content comment">
+                <div class="claim">
+                <!--    <h3> Thank you for the lovely selfie </h3> -->
+                    <br />
+                    <h3>Almost there! A text message is on it's way!</h3>
+                    <br />
+                    <p>PRO TIP: While you're waiting, make sure your hair looks good :-)</p><br/>
+                    <p>If you don't receive an SMS in the next 5 minutes try again using the button below and ensure your country code &amp; mobile # is correct!</p><br/>
+                    
+                    <!--<p>If it doesn't arrive within 5 minutes, please try again by clicking on the button below. Make sure to enter the correct country code and phone number.</p>-->
+                    <br />
+                    <p>After (2) failed attempts stop by the Appirio Booth, and we'll help you out</p>
+                </div>
+              </div>
+              <div class="snap-content">      
+                  <a href="{!tryAgain}" class="blue-btn">Try Again</a>
+              </div>
+           </main>
+          <!--  <footer class="footer">
+                <a href="FFHR1_SurveyIdentityLocationPage" class="block continue-btn">Continue</a>
+           </footer> -->
+           <!-- end .footer -->
+        </body>
+    </html> 
+</apex:page>
